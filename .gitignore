@@ -112,3 +112,22 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Local credentials: keep real values in protected credential stores.
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+.npmrc
+.pypirc
+credentials
+credentials.*
+id_rsa
+id_ed25519
+id_ecdsa
+__pycache__/
+*.pyc
