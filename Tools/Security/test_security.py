@@ -38,9 +38,51 @@ class SecurityTests(unittest.TestCase):
         value = b"-----BEGIN " + b"PRIVATE KEY-----"
         self.assertEqual(self.scan(value).findings[0]["type"], "private-key")
 
-    def test_binary_and_unknown_formats_block(self):
-        self.assertTrue(self.scan(b"\x00binary").gaps)
-        self.assertTrue(self.scan(b"unknown", "synthetic.unknown").gaps)
+    def test_binary_requires_manual_review_but_is_still_scanned(self):
+        result = self.scan(b"\xff\x00binary", "synthetic.png")
+        self.assertFalse(result.gaps)
+        self.assertEqual(result.manual_reviews[0]["type"], "binary-content-manual-review")
+        self.assertEqual(result.counts["binary-text-scans"], 1)
+        result = self.scan(b"\xff\x00" + synthetic_assignment() + b"\xfe", "synthetic.png")
+        self.assertEqual(result.findings[0]["type"], "assigned-secret")
+        self.assertEqual(result.findings[0]["line"], 0)
+        self.assertNotIn("fake-pass-for-test", str(result.findings))
+
+    def test_null_containing_utf8_binary_is_scanned(self):
+        result = self.scan(b"\x00" + synthetic_assignment() + b"\x00", "synthetic.ttf")
+        self.assertTrue(result.manual_reviews)
+        self.assertTrue(result.findings)
+
+    def test_unknown_text_extensions_are_scanned_without_allowlist(self):
+        self.assertFalse(self.scan(b"unknown", "synthetic.unknown").gaps)
+        result = self.scan(synthetic_assignment(), "synthetic.shadergraph")
+        self.assertEqual(result.findings[0]["type"], "assigned-secret")
+        self.assertFalse(result.manual_reviews)
+
+    def test_replacement_does_not_join_token_fragments(self):
+        prefix = b"ghp_" + b"SYNTHETIC" * 2
+        suffix = b"SYNTHETIC" * 3
+        self.assertFalse(self.scan(prefix + b"\xff" + suffix, "synthetic.png").findings)
+
+    def test_oversized_payload_still_blocks(self):
+        self.assertEqual(self.scan(b"x" * (16 * 1024 * 1024 + 1)).gaps[0]["type"], "file-over-16MiB")
+
+    def test_binary_lfs_payload_is_verified_scanned_and_reported(self):
+        import hashlib
+        data = b"\xff\x00" + synthetic_assignment()
+        oid = hashlib.sha256(data).hexdigest()
+        pointer = ("version https://git-lfs.github.com/spec/v1\noid sha256:" + oid + "\nsize " + str(len(data)) + "\n").encode()
+        with tempfile.TemporaryDirectory() as folder, patch.object(scanner, "ROOT", Path(folder)):
+            target = Path(folder) / ".git/lfs/objects" / oid[:2] / oid[2:4] / oid
+            target.parent.mkdir(parents=True)
+            target.write_bytes(data)
+            with patch.object(scanner, "git", return_value=b".git/lfs/objects\n"):
+                result = self.scan(pointer, "synthetic.png")
+                self.assertTrue(result.findings)
+                self.assertTrue(result.manual_reviews)
+                self.assertEqual(result.counts["lfs-payloads"], 1)
+                target.write_bytes(b"different synthetic data")
+                self.assertEqual(self.scan(pointer).gaps[0]["type"], "lfs-integrity-failure")
 
     def test_utf16(self):
         self.assertTrue(self.scan(synthetic_assignment().decode().encode("utf-16")).findings)

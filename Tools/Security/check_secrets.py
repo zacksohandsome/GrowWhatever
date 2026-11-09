@@ -22,7 +22,6 @@ RULES = {
     "user-path-review": r"(?i)(?:[A-Z]:[\\/]+(?:Users|Documents and Settings)[\\/]+|/Users/|/home/)[^\s\\/<>\"'\[\]()|]+",
 }
 PATTERNS = {k: re.compile(v) for k, v in RULES.items()}
-TEXT_EXT = set(".cs .ps1 .py .sh .md .txt .json .yaml .yml .xml .config .asset .meta .unity .mat .prefab .inputactions .scenetemplate .shader .hlsl .cginc .uss .uxml .asmdef .asmref .sln .csproj .props .targets .log .csv .tsv .ini .toml .cfg .gitignore .gitattributes .gitmodules .gitkeep .rsp .bat .cmd .html .css .js .ts .svg .settings .dwlt".split())
 SKIP = {".git", "Library", "Temp", "obj", ".vs"}
 SENSITIVE = re.compile(r"(?i)(?:^|/)(?:\.env(?:\..+)?|\.npmrc|\.pypirc|credentials(?:\..+)?|id_(?:rsa|ed25519|ecdsa)|[^/]+\.(?:p12|pfx|jks|keystore|key|pem))$")
 PLACEHOLDER = re.compile(r"(?i)^(?:<[A-Z][A-Z0-9_ -]+>|\$\{[A-Z_][A-Z0-9_]*\}|\$env:[A-Z_][A-Z0-9_]*|YOUR_[A-Z_]+|REPLACE_ME|PLACEHOLDER|EXAMPLE|REDACTED|\*+)$")
@@ -47,6 +46,7 @@ class Scan:
     def __init__(self):
         self.findings = []
         self.gaps = []
+        self.manual_reviews = []
         self.counts = collections.Counter()
 
     def content(self, data, path, scope):
@@ -83,17 +83,22 @@ class Scan:
             return
         try:
             text = data.decode("utf-16") if data.startswith((b"\xff\xfe", b"\xfe\xff")) else data.decode("utf-8-sig")
+            binary = "\0" in text
         except UnicodeError:
-            self.gaps.append(dict(path=path, scope=scope, type="binary-or-unsupported-encoding"))
-            return
-        if "\0" in text or (Path(path).suffix.lower() not in TEXT_EXT and Path(path).name not in {"pre-commit", "pre-push", "commit-msg", "post-checkout", "post-commit", "post-merge", ".gitignore", ".gitattributes", ".vsconfig"}):
-            self.gaps.append(dict(path=path, scope=scope, type="unsupported-format"))
-            return
+            # Survivor-style fallback: still inspect readable strings in every payload.
+            # Replacement preserves byte boundaries instead of joining fragments across bad bytes.
+            text = data.decode("utf-8", errors="replace")
+            binary = True
+        if binary:
+            self.manual_reviews.append(dict(path=path, scope=scope, type="binary-content-manual-review"))
+            self.counts["binary-text-scans"] += 1
+        # Text is scanned regardless of extension, including Shader Graph and future formats.
         for kind, pattern in PATTERNS.items():
             for match in pattern.finditer(text):
                 if kind == "assigned-secret" and PLACEHOLDER.fullmatch(match[1]):
                     continue
-                self.findings.append(dict(path=path, scope=scope, line=text.count("\n", 0, match.start()) + 1, type=kind))
+                self.findings.append(dict(path=path, scope=scope,
+                                          line=0 if binary else text.count("\n", 0, match.start()) + 1, type=kind))
 
     def worktree(self):
         for folder, dirs, files in os.walk(ROOT, followlinks=False):
@@ -234,11 +239,12 @@ def main():
                     pass
             scan.history(revisions)
     blocking_gaps = [g for g in scan.gaps if g["type"] != "excluded-generated-or-git-directory"]
-    for item in scan.findings + scan.gaps:
+    for item in scan.findings + scan.gaps + scan.manual_reviews:
         if any(pattern.search(item["path"]) for pattern in PATTERNS.values()):
             item["path"] = "<redacted-sensitive-path>"
     print(json.dumps(dict(mode=args.mode, counts=scan.counts, findings=scan.findings,
-                          gaps=scan.gaps, passed=not scan.findings and not blocking_gaps), ensure_ascii=True, indent=2))
+                          gaps=scan.gaps, manual_reviews=scan.manual_reviews,
+                          passed=not scan.findings and not blocking_gaps), ensure_ascii=True, indent=2))
     return 1 if scan.findings or blocking_gaps else 0
 
 
