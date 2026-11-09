@@ -1,0 +1,5 @@
+{
+  "name": "GrowWhatever.Runtime",
+  "rootNamespace": "GrowWhatever",
+  "references": ["GrowWhatever.Core", "Unity.ugui", "Unity.TextMeshPro"]
+}

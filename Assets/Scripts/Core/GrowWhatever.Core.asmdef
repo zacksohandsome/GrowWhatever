@@ -1,0 +1,5 @@
+{
+  "name": "GrowWhatever.Core",
+  "rootNamespace": "GrowWhatever.Core",
+  "noEngineReferences": true
+}

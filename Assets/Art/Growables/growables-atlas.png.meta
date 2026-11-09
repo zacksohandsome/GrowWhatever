@@ -1,0 +1,600 @@
+fileFormatVersion: 2
+guid: 65b68d881c54cf8498c299b04652b3e3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -366691124013143742
+    second: growables-atlas_0
+  - first:
+      213: -2285513060303494710
+    second: growables-atlas_1
+  - first:
+      213: 4548647686900906588
+    second: growables-atlas_2
+  - first:
+      213: 5561824201936948251
+    second: growables-atlas_3
+  - first:
+      213: 7862628972576284233
+    second: growables-atlas_4
+  - first:
+      213: 3792431803003594177
+    second: growables-atlas_5
+  - first:
+      213: -519358114760871718
+    second: growables-atlas_6
+  - first:
+      213: -3966039079702643411
+    second: growables-atlas_7
+  - first:
+      213: 4755784315454535948
+    second: growables-atlas_8
+  - first:
+      213: -4425939039146958116
+    second: growables-atlas_9
+  - first:
+      213: -6584842462486966961
+    second: growables-atlas_10
+  - first:
+      213: -5642536134664838977
+    second: growables-atlas_11
+  - first:
+      213: -7484690085747676993
+    second: growables-atlas_12
+  - first:
+      213: 2309585748778682503
+    second: growables-atlas_13
+  - first:
+      213: -3541292338115950336
+    second: growables-atlas_14
+  - first:
+      213: 1353951250947247727
+    second: growables-atlas_15
+  - first:
+      213: 1063902684659925886
+    second: growables-atlas_16
+  - first:
+      213: -7911106053757029840
+    second: growables-atlas_17
+  - first:
+      213: 811523577026280605
+    second: growables-atlas_18
+  - first:
+      213: 2660097660221087552
+    second: growables-atlas_19
+  - first:
+      213: 1659468853742026197
+    second: growables-atlas_20
+  - first:
+      213: 6512170740127249264
+    second: growables-atlas_21
+  - first:
+      213: 4682761919380378303
+    second: growables-atlas_22
+  - first:
+      213: 5250769855291358584
+    second: growables-atlas_23
+  - first:
+      213: 7602758307311398620
+    second: growables-atlas_24
+  - first:
+      213: -9193179614714512726
+    second: growables-atlas_25
+  - first:
+      213: -2625849618124008291
+    second: growables-atlas_26
+  - first:
+      213: 6636487994383239307
+    second: growables-atlas_27
+  - first:
+      213: -5447413503973839493
+    second: growables-atlas_28
+  - first:
+      213: 7646821142270419165
+    second: growables-atlas_29
+  - first:
+      213: -1236416782694046646
+    second: growables-atlas_30
+  - first:
+      213: 758352789639566986
+    second: growables-atlas_31
+  - first:
+      213: -6038269626115277
+    second: growables-atlas_32
+  - first:
+      213: -4781546027340664626
+    second: growables-atlas_33
+  - first:
+      213: 801005880633423230
+    second: growables-atlas_34
+  - first:
+      213: -2175169269812653419
+    second: growables-atlas_35
+  - first:
+      213: 2753643357704588455
+    second: growables-atlas_36
+  - first:
+      213: -9094102866186780942
+    second: growables-atlas_37
+  - first:
+      213: 5420929376733312934
+    second: growables-atlas_38
+  - first:
+      213: 1505827475034599471
+    second: growables-atlas_39
+  - first:
+      213: 4359492699294676003
+    second: growables-atlas_40
+  - first:
+      213: -670596527661823060
+    second: growables-atlas_41
+  - first:
+      213: -5092072985157006151
+    second: growables-atlas_42
+  - first:
+      213: -7187810343006638875
+    second: growables-atlas_43
+  - first:
+      213: 1622560552861810118
+    second: growables-atlas_44
+  - first:
+      213: 680228002533681089
+    second: growables-atlas_45
+  - first:
+      213: -2212922849748704760
+    second: growables-atlas_46
+  - first:
+      213: 2741263380325956408
+    second: growables-atlas_47
+  - first:
+      213: -7178511183006203949
+    second: growables-atlas_48
+  - first:
+      213: 8973721594902475831
+    second: growables-atlas_49
+  - first:
+      213: 4611872625061445315
+    second: growables-atlas_50
+  - first:
+      213: 6117006009010030521
+    second: growables-atlas_51
+  - first:
+      213: 6700461057349157268
+    second: growables-atlas_52
+  - first:
+      213: 5834179437129025372
+    second: growables-atlas_53
+  - first:
+      213: -245553292624481557
+    second: growables-atlas_54
+  - first:
+      213: 8374034105720449551
+    second: growables-atlas_55
+  - first:
+      213: 7053117089490988664
+    second: growables-atlas_56
+  - first:
+      213: -5678777766269176224
+    second: growables-atlas_57
+  - first:
+      213: -2841146509970754423
+    second: growables-atlas_58
+  - first:
+      213: 1860365435636950180
+    second: growables-atlas_59
+  - first:
+      213: -2088773735330674174
+    second: growables-atlas_60
+  - first:
+      213: -5563407303682830271
+    second: growables-atlas_61
+  - first:
+      213: 8059184496850418527
+    second: growables-atlas_62
+  - first:
+      213: -1980069855594337149
+    second: growables-atlas_63
+  - first:
+      213: 307880079516012240
+    second: growables-atlas_64
+  - first:
+      213: 3496003813153823448
+    second: growables-atlas_65
+  - first:
+      213: 7925968403611742921
+    second: growables-atlas_66
+  - first:
+      213: 3971766342053358239
+    second: growables-atlas_67
+  - first:
+      213: -3051301036673543250
+    second: growables-atlas_68
+  - first:
+      213: -6233000577587184222
+    second: growables-atlas_69
+  - first:
+      213: 4007684668319484044
+    second: growables-atlas_70
+  - first:
+      213: -6319289474706964944
+    second: growables-atlas_71
+  - first:
+      213: 3451821040376095853
+    second: growables-atlas_72
+  - first:
+      213: 1725967596709287884
+    second: growables-atlas_73
+  - first:
+      213: 288007958854686607
+    second: growables-atlas_74
+  - first:
+      213: -2893397505289185670
+    second: growables-atlas_75
+  - first:
+      213: -7707824882476281469
+    second: growables-atlas_76
+  - first:
+      213: -1492523961650891411
+    second: growables-atlas_77
+  - first:
+      213: 8607526713010080514
+    second: growables-atlas_78
+  - first:
+      213: 233772850080160824
+    second: growables-atlas_79
+  - first:
+      213: -5779875060437699036
+    second: growables-atlas_80
+  - first:
+      213: -2549599555586531954
+    second: growables-atlas_81
+  - first:
+      213: 838004090149873074
+    second: growables-atlas_82
+  - first:
+      213: 3933151531508350157
+    second: growables-atlas_83
+  - first:
+      213: 3153469009070059146
+    second: growables-atlas_84
+  - first:
+      213: -935676061668744367
+    second: growables-atlas_85
+  - first:
+      213: -7163270005729264436
+    second: growables-atlas_86
+  - first:
+      213: -5401552835436410037
+    second: growables-atlas_87
+  - first:
+      213: -1556778711205099475
+    second: growables-atlas_88
+  - first:
+      213: -3114636512920678597
+    second: growables-atlas_89
+  - first:
+      213: 8265526978769871283
+    second: growables-atlas_90
+  - first:
+      213: -1388780067715647489
+    second: growables-atlas_91
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: carrot-growing
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 836
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d45a0fdbd8c82df4e8ae9de83a8d52c3
+      internalID: -736103439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: carrot-mature
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 836
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4d725fe6c6ad1b4faa53c82ca198364
+      internalID: 994412222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wheat-growing
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 836
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86b48baa246049445b0d7ce56728f7a5
+      internalID: -1234891715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wheat-mature
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 418
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 409120562fdc1ba43b4b070e991226ae
+      internalID: -511936640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron-growing
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 418
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69139ec0c61b83447ad96f77a24d3a67
+      internalID: 1069648291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: iron-mature
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 418
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20748294dd5bda546b038911488b99ce
+      internalID: 535053389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moonflower-growing
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1866858b2789fcc4d9d4ecc13c1324ba
+      internalID: -213359531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moonflower-mature
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8061b7dfc8093e142ba4e92eed41865d
+      internalID: 1436969776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: soil
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f5dccbd2a8230f459424dc7475a6578
+      internalID: -1683788614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3fed5db60e575184198815a604801846
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      carrot-growing: -736103439
+      carrot-mature: 994412222
+      iron-growing: 1069648291
+      iron-mature: 535053389
+      moonflower-growing: -213359531
+      moonflower-mature: 1436969776
+      soil: -1683788614
+      wheat-growing: -1234891715
+      wheat-mature: -511936640
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
