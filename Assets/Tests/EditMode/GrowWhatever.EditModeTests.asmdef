@@ -1,7 +1,7 @@
 {
   "name": "GrowWhatever.EditModeTests",
   "rootNamespace": "GrowWhatever.Tests",
-  "references": ["GrowWhatever.Core"],
+  "references": ["GrowWhatever.Core", "GrowWhatever.Runtime"],
   "includePlatforms": ["Editor"],
   "optionalUnityReferences": ["TestAssemblies"]
 }
