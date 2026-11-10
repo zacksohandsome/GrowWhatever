@@ -28,6 +28,14 @@
 
 `FarmSaveStore` 負責 JSON 與檔案讀寫。寫入同目錄暫存檔並 flush，完成後替換正式檔；讀取失敗不自行寫入或刪除原檔。需要明確確認重開才可替換損壞或不支援的存檔。首版不實作雲端、歷史備份、自動版本遷移或防作弊。
 
+## 玩家設定
+
+`PlayerPreferences` 定義玩家顯示與音量資料、合法解析度及數值修正；`DisplayPreview` 隔離待確認與已確認的顯示值。15 秒預覽以不受遊戲時間倍率影響的時鐘推進，確認前不把顯示值寫入保存資料，因此調整音量或在預覽期間退出都不會意外保存預覽。
+
+`PlayerPreferencesStore` 以獨立的版本化 JSON 原子保存設定，不接觸農場存檔。`PlayerSettingsService` 管理螢幕切換、螢幕尺寸變更與音量；`PlayerSettingsView` 綁定已存入場景的 uGUI 物件，保護背景輸入並處理最上層確認與 Esc。`FarmAudio` 訂閱音量變更，總音量與音效音量相乘後套用於既有 AudioSource，保留素材原本的相對音量；預留的音樂 AudioSource 由服務套用總音量與音樂音量。
+
+Windows 驗證入口僅存在於 Development Build，且需明確的 `-settings-qa` 參數；它使用固定的合成 QA 設定與農場存檔，正式版排除該入口。詳細驗收與硬體限制見 [玩家設定驗證](player-settings-verification.md)。
+
 ## 驗證與工具界線
 
 EditMode 測試涵蓋種植、資源、FIFO、增益、升級、快照及原子檔案保存。Editor 操作驗證檢查 raycast、面板、Prefab 與素材。獨立 Windows QA Player 使用正常初始資源與真實經過時間，另驗證離線重開；模擬流程只供快速檢查數值，與真實試玩分開記錄。

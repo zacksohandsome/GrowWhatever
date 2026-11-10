@@ -20,6 +20,9 @@ namespace GrowWhatever
         [SerializeField] private UnityEngine.UI.Button processingButton, labButton, saveButton, newFarmButton, confirmNewButton, cancelNewButton;
         [SerializeField] private TMP_Text goalLabel, saveLabel, recoveryLabel;
 
+        public bool HasConfirmation => newFarmPanel.activeSelf;
+        public void CancelConfirmation() => CancelNewFarm();
+
         private void OnEnable()
         {
             session.Initialize();

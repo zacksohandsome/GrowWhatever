@@ -9,9 +9,17 @@ namespace GrowWhatever
     public sealed class FarmAudio : MonoBehaviour
     {
         [SerializeField] private AudioSource source;
+        [SerializeField] private PlayerSettingsService playerSettings;
         [SerializeField] private FarmSoundBinding[] clips;
         [SerializeField, Range(0, 1)] private float volume = 0.5f;
         private float lastClickTime = -1;
+
+        private void OnEnable()
+        {
+            if (playerSettings != null) { playerSettings.Changed += ApplyVolume; ApplyVolume(); }
+        }
+        private void OnDisable() { if (playerSettings != null) playerSettings.Changed -= ApplyVolume; }
+        private void ApplyVolume() { if (source != null) source.volume = playerSettings.EffectsGain; }
 
         private void Awake()
         {

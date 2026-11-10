@@ -25,6 +25,7 @@ namespace GrowWhatever
         private GameObject previousSelection;
 
         public bool IsOpen => gameObject.activeSelf;
+        public int ClosedFrame { get; private set; } = -1;
 
         private void Awake()
         {
@@ -81,6 +82,7 @@ namespace GrowWhatever
         public void Close()
         {
             if (!IsOpen || submitting) return;
+            ClosedFrame = Time.frameCount;
             if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
             gameObject.SetActive(false);
             if (EventSystem.current != null && previousSelection != null && previousSelection.activeInHierarchy)

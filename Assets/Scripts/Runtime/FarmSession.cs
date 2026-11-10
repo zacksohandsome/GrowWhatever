@@ -37,6 +37,9 @@ namespace GrowWhatever
             initialized = true;
             Application.targetFrameRate = 60;
 #if DEVELOPMENT_BUILD && !UNITY_EDITOR
+            if (PlayerSettingsStandaloneCheck.Requested) saveFileName = "qa-player-settings-farm-validation.json";
+#endif
+#if DEVELOPMENT_BUILD && !UNITY_EDITOR
             if (FarmStandalonePlaythrough.Requested && saveFileName.StartsWith("qa-standalone-"))
                 saveFileName = saveFileName.Replace("qa-standalone-", "qa-playthrough-");
 #endif
