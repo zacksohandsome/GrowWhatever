@@ -6,7 +6,7 @@ using System.Linq;
 namespace GrowWhatever.Core
 {
     /// <summary>Single-player farming rules. The caller settles elapsed time before each command.</summary>
-    public sealed class FarmGame
+    public sealed partial class FarmGame
     {
         private readonly Dictionary<string, GrowableSpec> content;
         private readonly Dictionary<string, int> seeds = new Dictionary<string, int>();
@@ -19,7 +19,7 @@ namespace GrowWhatever.Core
         public ReadOnlyCollection<GrowableSpec> Growables { get; }
 
         public FarmGame(IEnumerable<GrowableSpec> growables, int money,
-            IReadOnlyDictionary<string, int> startingSeeds)
+            IReadOnlyDictionary<string, int> startingSeeds, FarmRules rules = null)
         {
             if (money < 0) throw new ArgumentOutOfRangeException(nameof(money));
             var definitions = growables.ToArray();
@@ -36,18 +36,19 @@ namespace GrowWhatever.Core
             }
             plots = Enumerable.Range(0, 9).Select(i => new FarmPlot(i / 3, i % 3)).ToArray();
             Plots = Array.AsReadOnly(plots);
+            InitializeProgression(rules ?? FarmRules.Empty);
         }
 
         public GrowableSpec Definition(string id) => content[id];
         public int SeedCount(string id) => seeds[id];
         public int ProduceCount(string id) => produce[id];
         public bool IsMature(FarmPlot plot) => !plot.IsEmpty && plot.Progress >= content[plot.GrowableId].GrowthSeconds;
-        public int PlantableCount(string id) => Math.Min(plots.Count(x => x.IsEmpty), seeds[id]);
+        public int PlantableCount(string id) => IsUnlocked(id) ? Math.Min(plots.Count(x => x.IsEmpty), seeds[id]) : 0;
         public int HarvestableCount => plots.Count(x => x.IncludeInBulkHarvest && IsMature(x));
 
         public bool BuySeed(string id)
         {
-            if (!content.TryGetValue(id, out var spec) || Money < spec.SeedPrice || seeds[id] == int.MaxValue) return false;
+            if (!content.TryGetValue(id, out var spec) || !IsUnlocked(id) || Money < spec.SeedPrice || seeds[id] == int.MaxValue) return false;
             Money -= spec.SeedPrice;
             seeds[id]++;
             Changed?.Invoke();
@@ -55,7 +56,7 @@ namespace GrowWhatever.Core
         }
 
         public bool SellSeed(string id) => Sell(id, seeds, content.TryGetValue(id, out var spec) ? spec.SeedPrice : 0);
-        public bool SellProduce(string id) => Sell(id, produce, content.TryGetValue(id, out var spec) ? spec.ProducePrice : 0);
+        public bool SellProduce(string id) => Sell(id, produce, ItemPrice(id));
 
         private bool Sell(string id, Dictionary<string, int> inventory, int price)
         {
@@ -68,7 +69,7 @@ namespace GrowWhatever.Core
 
         public bool Plant(int index, string id)
         {
-            if (index < 0 || index >= plots.Length || !content.ContainsKey(id) || seeds[id] <= 0 || !plots[index].IsEmpty) return false;
+            if (index < 0 || index >= plots.Length || !content.ContainsKey(id) || !IsUnlocked(id) || seeds[id] <= 0 || !plots[index].IsEmpty) return false;
             PlantUnchecked(plots[index], id);
             Changed?.Invoke();
             return true;
@@ -76,7 +77,7 @@ namespace GrowWhatever.Core
 
         public int PlantAll(string id)
         {
-            if (!content.ContainsKey(id)) return 0;
+            if (!content.ContainsKey(id) || !IsUnlocked(id)) return 0;
             int count = 0;
             foreach (var plot in plots)
             {
@@ -97,7 +98,9 @@ namespace GrowWhatever.Core
 
         public bool Harvest(int index)
         {
+            bool moonflower = index >= 0 && index < plots.Length && plots[index].GrowableId == "moonflower";
             if (index < 0 || index >= plots.Length || !HarvestUnchecked(plots[index])) return false;
+            if (moonflower) HarvestedMoonEssence = true;
             Changed?.Invoke();
             return true;
         }
@@ -115,8 +118,9 @@ namespace GrowWhatever.Core
         {
             if (!IsMature(plot)) return false;
             var spec = content[plot.GrowableId];
-            if (produce[spec.Id] > int.MaxValue - spec.Yield) return false;
-            produce[spec.Id] += spec.Yield;
+            int amount = spec.Yield + YieldBonus;
+            if (produce[spec.Id] > int.MaxValue - amount) return false;
+            produce[spec.Id] += amount;
             plot.GrowableId = null;
             plot.Progress = 0;
             // The bulk setting belongs to the plot and survives this plant's lifetime.
@@ -138,14 +142,17 @@ namespace GrowWhatever.Core
             foreach (var plot in plots)
             {
                 if (plot.IsEmpty || IsMature(plot)) continue;
-                plot.Progress = Math.Min(content[plot.GrowableId].GrowthSeconds, plot.Progress + elapsedSeconds);
+                double boost = NeighborMultiplier(plot);
+                if (boost > 1) UsedNeighborBoost = true;
+                plot.Progress = Math.Min(content[plot.GrowableId].GrowthSeconds, plot.Progress + elapsedSeconds * boost / GrowthTimeMultiplier);
                 changed = true;
             }
+            if (AdvanceProcessing(elapsedSeconds)) changed = true;
             if (changed) Changed?.Invoke();
         }
 
-        public bool CanClaimSupply => content.ContainsKey("carrot") && Money < content.Values.Min(x => x.SeedPrice)
-            && seeds.Values.All(x => x == 0) && produce.Values.All(x => x == 0) && plots.All(x => x.IsEmpty);
+        public bool CanClaimSupply => content.ContainsKey("carrot") && Money < content.Values.Where(x => IsUnlocked(x.Id)).Min(x => x.SeedPrice)
+            && seeds.Values.All(x => x == 0) && produce.Values.All(x => x == 0) && plots.All(x => x.IsEmpty) && jobs.Count == 0;
 
         public bool ClaimSupply()
         {

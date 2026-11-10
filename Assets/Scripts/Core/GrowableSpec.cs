@@ -11,9 +11,12 @@ namespace GrowWhatever.Core
         public double GrowthSeconds { get; }
         public int Yield { get; }
         public int ProducePrice { get; }
+        public string ProduceName { get; }
+        public bool InitiallyUnlocked { get; }
+        public IGrowthEffect GrowthEffect { get; }
 
         public GrowableSpec(string id, string displayName, int seedPrice, double growthSeconds,
-            int yield, int producePrice)
+            int yield, int producePrice, bool initiallyUnlocked = true, IGrowthEffect growthEffect = null, string produceName = null)
         {
             if (string.IsNullOrWhiteSpace(id)) throw new ArgumentException("A stable content ID is required.", nameof(id));
             if (seedPrice <= 0 || growthSeconds <= 0 || double.IsNaN(growthSeconds) ||
@@ -25,6 +28,9 @@ namespace GrowWhatever.Core
             GrowthSeconds = growthSeconds;
             Yield = yield;
             ProducePrice = producePrice;
+            ProduceName = string.IsNullOrWhiteSpace(produceName) ? displayName : produceName;
+            InitiallyUnlocked = initiallyUnlocked;
+            GrowthEffect = growthEffect;
         }
     }
 }
