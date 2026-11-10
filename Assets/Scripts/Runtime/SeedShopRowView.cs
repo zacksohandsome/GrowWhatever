@@ -44,13 +44,14 @@ namespace GrowWhatever
         {
             var game = session.Game;
             var spec = game.Definition(definition.Id);
-            title.text = definition.DisplayName + (session.SelectedSeed == definition.Id ? "  / selected" : "");
-            inventory.text = $"Seeds {game.SeedCount(definition.Id)}   /   Produce {game.ProduceCount(definition.Id)}\n{spec.GrowthSeconds:0}s growth  /  Yield {spec.Yield}  /  Sell {spec.ProducePrice}c each";
+            bool unlocked = game.IsUnlocked(definition.Id);
+            title.text = definition.DisplayName + (!unlocked ? " / locked" : session.SelectedSeed == definition.Id ? " / selected" : "");
+            inventory.text = $"Seeds {game.SeedCount(definition.Id)} / {spec.ProduceName} {game.ProduceCount(definition.Id)}\n{spec.GrowthSeconds:0}s growth / Yield {spec.Yield + game.YieldBonus} / Sell {spec.ProducePrice}c";
             portrait.sprite = definition.MatureSprite;
-            selectButton.interactable = session.SelectedSeed != definition.Id;
-            buyButton.interactable = game.Money >= spec.SeedPrice;
-            sellSeedButton.interactable = game.SeedCount(definition.Id) > 0;
-            sellProduceButton.interactable = game.ProduceCount(definition.Id) > 0;
+            selectButton.interactable = session.Ready && unlocked && session.SelectedSeed != definition.Id;
+            buyButton.interactable = session.Ready && unlocked && game.Money >= spec.SeedPrice;
+            sellSeedButton.interactable = session.Ready && game.SeedCount(definition.Id) > 0;
+            sellProduceButton.interactable = session.Ready && game.ProduceCount(definition.Id) > 0;
         }
     }
 }

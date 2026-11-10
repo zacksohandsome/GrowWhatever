@@ -37,6 +37,7 @@ namespace GrowWhatever
         {
             var plot = session.Game.Plots[plotIndex];
             bool mature = session.Game.IsMature(plot);
+            plotButton.interactable = bulkButton.interactable = session.Ready;
             plantImage.enabled = !plot.IsEmpty;
             if (!plot.IsEmpty)
             {
@@ -44,7 +45,8 @@ namespace GrowWhatever
                 plantImage.sprite = mature ? definition.MatureSprite : definition.GrowingSprite;
                 double duration = session.Game.Definition(plot.GrowableId).GrowthSeconds;
                 progressFill.fillAmount = (float)(plot.Progress / duration);
-                stateLabel.text = mature ? "Ready - harvest" : $"{definition.DisplayName}  {System.Math.Ceiling(duration - plot.Progress):0}s";
+                stateLabel.text = mature ? "Ready - harvest" : $"{definition.DisplayName} {System.Math.Ceiling(session.Game.RemainingGrowthSeconds(plot)):0}s";
+                progressFill.color = session.Game.NeighborMultiplier(plot) > 1 ? new Color32(165, 193, 247, 255) : new Color32(198, 182, 104, 255);
             }
             else
             {
