@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee891e0a28894b943a73d6139df7bda0, type: 3}
+  m_Name: FarmConfiguration
+  m_EditorClassIdentifier: GrowWhatever.Runtime::GrowWhatever.FarmConfiguration
+  startingMoney: 20
+  startingSeeds:
+  - id: carrot
+    amount: 5
+  - id: wheat
+    amount: 5
+  autoSaveSeconds: 30
+  recipes:
+  - id: flour
+    displayName: Mill flour
+    inputId: wheat
+    outputId: flour
+    outputName: Flour
+    requiredResearch: 
+    inputAmount: 3
+    outputAmount: 1
+    outputPrice: 9
+    seconds: 30
+  - id: parts
+    displayName: Forge parts
+    inputId: iron
+    outputId: parts
+    outputName: Parts
+    requiredResearch: iron
+    inputAmount: 2
+    outputAmount: 1
+    outputPrice: 16
+    seconds: 45
+  research:
+  - id: iron
+    displayName: Iron sprout
+    requiredResearch: 
+    unlockGrowableId: iron
+    money: 20
+    items:
+    - id: carrot
+      amount: 6
+    - id: flour
+      amount: 2
+  - id: moonflower
+    displayName: Moonflower
+    requiredResearch: iron
+    unlockGrowableId: moonflower
+    money: 40
+    items:
+    - id: parts
+      amount: 4
+    - id: flour
+      amount: 3
+  upgrades:
+  - id: growth
+    displayName: Growth time -10%
+    requiredResearch: iron
+    money: 40
+    items:
+    - id: parts
+      amount: 2
+    growthTimeMultiplier: 0.9
+    yieldBonus: 0
+  - id: yield
+    displayName: Harvest yield +1
+    requiredResearch: iron
+    money: 80
+    items:
+    - id: parts
+      amount: 4
+    growthTimeMultiplier: 1
+    yieldBonus: 1

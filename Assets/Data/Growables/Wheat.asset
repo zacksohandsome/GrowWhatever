@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: GrowWhatever.Runtime::GrowWhatever.GrowableDefinition
   id: wheat
   displayName: Wheat
+  produceName: Wheat
   seedPrice: 4
   growthSeconds: 60
   harvestYield: 3
   producePrice: 2
   growingSprite: {fileID: -1234891715, guid: 65b68d881c54cf8498c299b04652b3e3, type: 3}
   matureSprite: {fileID: -511936640, guid: 65b68d881c54cf8498c299b04652b3e3, type: 3}
+  initiallyUnlocked: 1
+  grantsNeighborBoost: 0
+  neighborMultiplier: 1.25

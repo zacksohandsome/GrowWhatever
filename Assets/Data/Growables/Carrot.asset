@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: GrowWhatever.Runtime::GrowWhatever.GrowableDefinition
   id: carrot
   displayName: Carrot
+  produceName: Carrot
   seedPrice: 2
   growthSeconds: 30
   harvestYield: 3
   producePrice: 1
   growingSprite: {fileID: -736103439, guid: 65b68d881c54cf8498c299b04652b3e3, type: 3}
   matureSprite: {fileID: 994412222, guid: 65b68d881c54cf8498c299b04652b3e3, type: 3}
+  initiallyUnlocked: 1
+  grantsNeighborBoost: 0
+  neighborMultiplier: 1.25
