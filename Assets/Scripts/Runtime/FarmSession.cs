@@ -13,6 +13,9 @@ namespace GrowWhatever
         [SerializeField] private FarmConfiguration configuration;
         [SerializeField] private FarmAudio audioFeedback;
         [SerializeField] private string saveFileName = "farm-save-v1.json";
+#if UNITY_EDITOR
+        [SerializeField, HideInInspector] private double debugSkipMinutes = 1;
+#endif
         private DateTime lastSettled;
         private float nextRefresh, nextSave;
         private FarmSaveStore saveStore;
@@ -135,6 +138,23 @@ namespace GrowWhatever
             Play(saved ? FarmSound.Click : FarmSound.Unavailable);
             NotifyChanged();
         }
+
+#if UNITY_EDITOR
+        public bool DebugSkipTime(double minutes)
+        {
+            double seconds = minutes * 60;
+            if (!Application.isPlaying || !initialized || Game == null || !Ready ||
+                seconds <= 0 || double.IsNaN(seconds) || double.IsInfinity(seconds)) return false;
+
+            SettleTime();
+            Game.Advance(seconds);
+            bool saved = SaveNow();
+            Message = saved ? $"Debug: skipped {minutes:0.###} minutes. Farm saved." :
+                $"Debug: skipped {minutes:0.###} minutes. Save failed - retry Save.";
+            NotifyChanged();
+            return true;
+        }
+#endif
 
         public void StartNewFarm()
         {
