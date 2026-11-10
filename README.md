@@ -1,39 +1,24 @@
 # GrowWhatever
 
-A small, single-player fantasy farming game built with Unity. Start with carrots and wheat, mill flour, research plants that grow iron, and use Moonflowers to speed up neighboring plots.
+**從胡蘿蔔到鐵礦，種出超乎想像的奇幻農場。**
 
-## Play
+GrowWhatever 是一款以 Unity 與 C# 製作的 2D 單人農場經營遊戲。玩家在九塊田地中種植作物、加工材料並投入研究，從熟悉的胡蘿蔔與小麥起步，逐步解鎖能長出鐵礦的鐵芽，以及能加速鄰田生長的月光花。
 
-Open `Assets/Scenes/Farm.unity` in Unity **6000.3.27f2** and press Play. The project uses the packages locked in `Packages/packages-lock.json`.
+![GrowWhatever 遊戲畫面：九塊田地種植胡蘿蔔、小麥、鐵芽與月光花](docs/images/gameplay.png)
 
-The local Windows build is generated into `Builds/GrowWhatever-Windows/`. Run `GrowWhatever.exe` from that folder and keep its `_Data`, `MonoBleedingEdge` and other adjacent player files together. Build output is excluded from Git; a source clone does not include an executable.
+## 遊戲特色
 
-- Choose a seed in **Seed shop**, then click an empty plot to plant. Buying and planting are separate: planting consumes one owned seed.
-- Click a mature plant to harvest. **Plant all** fills empty plots in row order; **Harvest all** only collects mature plots whose bulk setting is ON.
-- Sell seeds back at their purchase price, or sell produce for coins. Keep the materials shown in **Genetic Lab** for research.
-- **Workshop** accepts one active job and three waiting jobs. Ordering pays materials immediately; completed goods enter inventory automatically.
-- Research Iron sprout, then Moonflower. Buy either permanent upgrade, actually use a Moonflower's neighbor boost, and manually harvest Moonflower essence to complete the first farm goal.
-- Moonflowers boost orthogonally adjacent non-Moonflowers by 25%. Their effect remains after maturity. Switch a Moonflower plot's bulk setting OFF to keep it while harvesting other plots.
-- **Save** writes the local farm. **New farm** opens a confirmation before replacing it. **Free seed** becomes available only when no usable or pending resources remain and the cheapest unlocked seed is unaffordable.
+- **奇幻作物與研究探索**：四種作物各有用途，透過研究解鎖新種子，讓農場從日常耕作走向奇幻生產。
+- **種植、加工與經營循環**：販售收成累積資金，將小麥磨成麵粉、鐵礦加工成零件，再投入研究與永久升級。
+- **田地配置策略**：月光花可加速上下左右相鄰作物的生長，玩家需要取捨收成收益與保留增益的效益。
+- **便捷的農場操作**：支援批次播種與收成，也能為個別田地設定是否參與批次收成，保留需要持續發揮效果的植物。
+- **存檔與離線進度**：自動保存農場狀態，離線期間既有作物與加工佇列持續推進，回到遊戲後接續經營。
 
-The first farm goal is a progression milestone, not an ending: you can continue playing afterwards. There is no automatic planting, harvesting or replanting.
+## 技術亮點
 
-## Saves and offline progress
+- **Unity 6 / C#**：以獨立於 Unity 引擎的 C# 核心處理種植、經濟與成長規則，將遊戲邏輯與畫面呈現分離。
+- **資料驅動設計**：使用 ScriptableObject 配置作物、配方、研究與升級資料。
+- **一致的時間結算**：線上與離線共用進度計算邏輯，處理作物增益、成長升級與加工佇列。
+- **本機資料保存**：透過版本化 JSON、快照驗證與原子寫入保存遊戲進度。
 
-There is one local JSON save, `farm-save-v1.json`, under Unity's persistent-data directory for company/product `GrowWhatever`. Saves occur after state-changing commands, processing completion, focus/pause transitions, every 30 seconds, and on normal exit.
-
-Existing crops and queued processing advance while away using the same rules as online play. Mature plants wait for harvest; the finite queue eventually empties. No additional work is created offline. Negative system-clock differences count as zero; clock manipulation is not prevented.
-
-A damaged, unsupported or inconsistent save is preserved and gameplay is blocked until you explicitly choose to start a new farm. Save-write failures are displayed in the interface; you can retry Save.
-
-## Project structure and validation
-
-Gameplay rules live in engine-independent C# under `Assets/Scripts/Core`. Runtime components bind those rules to saved scene/Prefab assets and ScriptableObject settings. See [architecture](docs/design/architecture.md), [game specification](docs/design/game-design.md), [balance](docs/design/balance.md) and [asset sources](docs/design/asset-sources.md).
-
-The current version passes 20 EditMode tests. A normal-resource, real-time Windows QA playthrough reached the first farm goal in **27 minutes 32 seconds**; offline restart was tested separately. See [validation and limitations](docs/design/verification.md).
-
-Run the `GrowWhatever.EditModeTests` assembly in Unity's Test Runner for rules, progression and persistence tests. `Tools/Development` contains authoring and verification scripts for the connected Editor. QA automation is compiled only for Editor/Development builds and is excluded from the regular Windows build.
-
-This is a single-scene desktop first version with four growables, two recipes, two research projects and two single-level upgrades. The interface currently uses English. There is no combat, daily-task system, automatic farming, cloud save, Steam integration or commercial release commitment.
-
-Before Git work, follow [project safety checks](Tools/Security/README.md). Third-party assets retain their own terms; see [asset sources](docs/design/asset-sources.md).
+美術與音效來源詳見[素材來源](docs/design/asset-sources.md)。
