@@ -33,6 +33,10 @@ namespace GrowWhatever
             if (initialized) return;
             initialized = true;
             Application.targetFrameRate = 60;
+#if DEVELOPMENT_BUILD && !UNITY_EDITOR
+            if (FarmStandalonePlaythrough.Requested && saveFileName.StartsWith("qa-standalone-"))
+                saveFileName = saveFileName.Replace("qa-standalone-", "qa-playthrough-");
+#endif
             if (string.IsNullOrWhiteSpace(saveFileName) || System.IO.Path.GetFileName(saveFileName) != saveFileName)
                 throw new InvalidOperationException("Save file name must be a local file name.");
             saveStore = new FarmSaveStore(System.IO.Path.Combine(Application.persistentDataPath, saveFileName));
