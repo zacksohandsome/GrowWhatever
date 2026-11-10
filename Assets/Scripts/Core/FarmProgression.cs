@@ -92,7 +92,7 @@ namespace GrowWhatever.Core
                 if (job.RemainingSeconds > 0) break;
                 var recipe = Rules.Recipes.First(x => x.Id == job.RecipeId);
                 // An inventory at its integer limit pauses delivery rather than losing materials.
-                if (produce[recipe.OutputId] > int.MaxValue - recipe.OutputAmount) break;
+                if ((long)produce[recipe.OutputId] + recipe.OutputAmount > InventoryLimit) break;
                 produce[recipe.OutputId] += recipe.OutputAmount;
                 jobs.RemoveAt(0);
                 completed++;

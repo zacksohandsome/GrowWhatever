@@ -207,6 +207,20 @@ namespace GrowWhatever
         public void BuySeed(string id) => Execute(() => Game.BuySeed(id), "Seed purchased.", "Not enough coins or seed is locked.", FarmSound.Trade);
         public void SellSeed(string id) => Execute(() => Game.SellSeed(id), "Seed sold at full price.", "No seed to sell.", FarmSound.Trade);
         public void SellProduce(string id) => Execute(() => Game.SellProduce(id), "Item sold.", "No item to sell.", FarmSound.Trade);
+        public bool Trade(string id, FarmTradeKind kind, int quantity)
+        {
+            if (!Ready) return false;
+            SettleTime();
+            var quote = Game.QuoteTrade(id, kind);
+            bool result = Game.Trade(id, kind, quantity);
+            Message = result
+                ? $"{(kind == FarmTradeKind.BuySeed ? "Purchased" : "Sold")} {quantity:N0} {quote.ItemName} / {(long)quantity * quote.UnitPrice:N0} coins."
+                : "Resources changed or quantity unavailable. Review the updated quantity and confirm again.";
+            Play(result ? FarmSound.Trade : FarmSound.Unavailable);
+            if (result) SaveNow();
+            NotifyChanged();
+            return result;
+        }
         public void ClaimSupply() => Execute(Game.ClaimSupply, "One free carrot seed received.", "You still have usable resources.", FarmSound.Click);
         public void QueueRecipe(string id) => Execute(() => Game.QueueRecipe(id), "Work queued; materials paid.", "Queue full, locked recipe or insufficient materials.", FarmSound.Click);
         public void Research(string id) => Execute(() => Game.Research(id), "Research complete. New seeds are available.", "Research unavailable or resources insufficient.", FarmSound.Unlock);

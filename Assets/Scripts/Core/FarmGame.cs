@@ -46,26 +46,9 @@ namespace GrowWhatever.Core
         public int PlantableCount(string id) => IsUnlocked(id) ? Math.Min(plots.Count(x => x.IsEmpty), seeds[id]) : 0;
         public int HarvestableCount => plots.Count(x => x.IncludeInBulkHarvest && IsMature(x));
 
-        public bool BuySeed(string id)
-        {
-            if (!content.TryGetValue(id, out var spec) || !IsUnlocked(id) || Money < spec.SeedPrice || seeds[id] == int.MaxValue) return false;
-            Money -= spec.SeedPrice;
-            seeds[id]++;
-            Changed?.Invoke();
-            return true;
-        }
-
-        public bool SellSeed(string id) => Sell(id, seeds, content.TryGetValue(id, out var spec) ? spec.SeedPrice : 0);
-        public bool SellProduce(string id) => Sell(id, produce, ItemPrice(id));
-
-        private bool Sell(string id, Dictionary<string, int> inventory, int price)
-        {
-            if (!inventory.TryGetValue(id, out int amount) || amount <= 0 || price > int.MaxValue - Money) return false;
-            inventory[id]--;
-            Money += price;
-            Changed?.Invoke();
-            return true;
-        }
+        public bool BuySeed(string id) => Trade(id, FarmTradeKind.BuySeed, 1);
+        public bool SellSeed(string id) => Trade(id, FarmTradeKind.SellSeed, 1);
+        public bool SellProduce(string id) => Trade(id, FarmTradeKind.SellProduce, 1);
 
         public bool Plant(int index, string id)
         {
@@ -118,9 +101,9 @@ namespace GrowWhatever.Core
         {
             if (!IsMature(plot)) return false;
             var spec = content[plot.GrowableId];
-            int amount = spec.Yield + YieldBonus;
-            if (produce[spec.Id] > int.MaxValue - amount) return false;
-            produce[spec.Id] += amount;
+            long amount = (long)spec.Yield + YieldBonus;
+            if ((long)produce[spec.Id] + amount > InventoryLimit) return false;
+            produce[spec.Id] += (int)amount;
             plot.GrowableId = null;
             plot.Progress = 0;
             // The bulk setting belongs to the plot and survives this plant's lifetime.
